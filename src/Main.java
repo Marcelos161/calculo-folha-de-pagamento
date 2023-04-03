@@ -23,7 +23,7 @@ public class Main {
         String insalubridade = "";
         String insalubridadeNivel = "";
         double valeTrans = 0;
-        double  salarioTransporte = 0;
+        double salario6 = 0;
 
 //          Inicio
         System.out.println("Bem vindo ao app para calcular a folha de pagamento de funcionario");
@@ -95,6 +95,13 @@ public class Main {
 //        Desconto de vale transportes
 
         System.out.println("qual o valor do vale transporte desse funcionario:");
+        valeTrans = console.nextDouble();
+        salario6 = salBrutoFunc * 0.60;
 
+        if (valeTrans >= salario6) {
+            salLiquidoFunc = salLiquidoFunc - salario6;
+        } else {
+            salLiquidoFunc = salLiquidoFunc - valeTrans;
+        }
     }
 }
