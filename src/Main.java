@@ -15,15 +15,23 @@ public class Main {
         int diasTrabalho = 0; // Dias totais da semana em que o funcionario trabalha
         int horasDiasFunc = 0; //Quantas Horas no dia o funcionario trabalha
         int horasTotaisSem = 0; //Vai receber quantas horas totais o funcionario trabalha na semana
-        int horasTotais = 0; // Vai receber as horas totais
+        int horasTotais = 0; // Vai receber as horas totais no mes
         double salPorHora = 0; // Recebe o valor do salario dividido pelas horas trabalhadas
         String periculosidade = "";
-        double adPeric = 0;
+        double adPeric = 0.30;
         double salLiquidoFunc = 0; // Salario liquido
         String insalubridade = "";
         String insalubridadeNivel = "";
         double valeTrans = 0;
         double salario6 = 0;
+        int diasTrabMes = 0;
+        int semanasMesAtual = 5;
+        String valeAlimentacao = "";
+        double valeAlimentacaoDia = 0;
+        String descValeAlimentacao = "";
+        double valorDescVA = 0;
+        double valeAlimentacaoTotal = 0;
+
 
 //          Inicio
         System.out.println("Bem vindo ao app para calcular a folha de pagamento de funcionario");
@@ -40,14 +48,14 @@ public class Main {
         System.out.print("Quantos dias esse funcionario trabalha na semana: ");
         diasTrabalho = console.nextInt();
 
+        diasTrabMes = diasTrabalho * semanasMesAtual; //calculo de dias trablhados no mes no total
+
         console.nextLine(); //Limpa o buffer do teclado
 
-//          calculos
-
         horasTotaisSem = horasDiasFunc * diasTrabalho;
-        horasTotais = horasTotaisSem * 5;
+        horasTotais = horasTotaisSem * semanasMesAtual;
         salPorHora = salBrutoFunc / horasTotais;
-        System.out.println(salPorHora);
+        System.out.println(salPorHora); // CORRETO, JA DEBUGADO
 
 //          calculo de periculosidade
 
@@ -77,13 +85,13 @@ public class Main {
                         insalubridadeNivel = console.nextLine();
                         if (insalubridadeNivel.equalsIgnoreCase("baixo")) {
                             salLiquidoFunc = salLiquidoFunc + 138.08;
-                            System.out.println("salario baixo fica" + salLiquidoFunc);
+                            System.out.println("salario baixo fica " + salLiquidoFunc);
                         }else if (insalubridadeNivel.equalsIgnoreCase("medio")) {
                             salLiquidoFunc = salLiquidoFunc + 276.12;
-                            System.out.println("salario medio fica" + salLiquidoFunc);
+                            System.out.println("salario medio fica " + salLiquidoFunc);
                         } else if (insalubridadeNivel.equalsIgnoreCase("alto")) {
                             salLiquidoFunc = salLiquidoFunc + 552.2;
-                            System.out.println("salario alto fica" + salLiquidoFunc);
+                            System.out.println("salario alto fica " + salLiquidoFunc);
                         }
                     }
                 }else if (insalubridade.equalsIgnoreCase("n")){
@@ -94,14 +102,74 @@ public class Main {
             }
 //        Desconto de vale transportes
 
-        System.out.println("qual o valor do vale transporte desse funcionario:");
+        System.out.print("qual o valor do vale transporte desse funcionario em reais:");
         valeTrans = console.nextDouble();
-        salario6 = salBrutoFunc * 0.60;
+        salario6 = salBrutoFunc * 0.06;
 
         if (valeTrans >= salario6) {
             salLiquidoFunc = salLiquidoFunc - salario6;
         } else {
             salLiquidoFunc = salLiquidoFunc - valeTrans;
         }
+//                                      ATE AQUI TODAS AS CONTAS MATEMATICAS ESTAO CORRETAS obs: faltam algumas coisas no salario hora
+
+//        Vale alimentacao
+
+        console.nextLine(); // Limpeza de buffer novamente
+
+        while (!valeAlimentacao.equalsIgnoreCase("y") && !valeAlimentacao.equalsIgnoreCase("n")) {
+            System.out.print("O seu funcionario recebe o vale alimentacao? (Y/N): ");
+            valeAlimentacao = console.nextLine();
+
+            if (valeAlimentacao.equalsIgnoreCase("y")) {
+                System.out.print("Qual o valor diario desse beneficio?:");
+                valeAlimentacaoDia = console.nextDouble();
+
+                valeAlimentacaoTotal = valeAlimentacaoDia * diasTrabMes;
+
+                console.nextLine(); // Limpeza de buffer
+
+                while (!descValeAlimentacao.equalsIgnoreCase("y") && !descValeAlimentacao.equalsIgnoreCase("n")) {
+                    System.out.print("Ha desconto no salario por causa do vale alimentacao? (Y/N)");
+                    descValeAlimentacao = console.nextLine();
+
+                    if (descValeAlimentacao.equalsIgnoreCase("y")) {
+                        System.out.print("Qual o valor do desconto em %: ");
+                        valorDescVA = console.nextDouble();
+
+                        salLiquidoFunc = salLiquidoFunc - ((valorDescVA / 100) * salLiquidoFunc);
+                    }
+                }
+            }
+        }
+
+
+//        RESULTADOS DOS REQUISITOS #DEBUG
+        System.out.println(nomeFunc);
+        System.out.println(cargoFunc);
+        System.out.println(salBrutoFunc);
+        System.out.println(horasDiasFunc);
+        System.out.println(diasTrabalho);
+        System.out.println(horasTotaisSem);
+        System.out.println(horasTotais);
+        System.out.println(salPorHora);
+
+        System.out.println(periculosidade); //periculosidade debbuger
+        if (periculosidade.equalsIgnoreCase("y")){
+            System.out.println(adPeric);
+        } else {
+            System.out.println("Nao teve adicional insalubridade");
+        }
+
+        if (insalubridadeNivel.equalsIgnoreCase("")) { //insalubridade debbuger
+            System.out.println("nao houve adicional insalubridade"); //retorno se nao houve
+        } else {
+            System.out.println("insalubridade nivel:" + insalubridadeNivel.toUpperCase()); //retorno se houve, e qual o nivel
+        }
+
+        System.out.println(valeTrans);
+        System.out.println(salario6); //6% do salario bruto
+
+        System.out.println(valeAlimentacao);
     }
 }
