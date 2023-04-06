@@ -31,6 +31,9 @@ public class Main {
         String descValeAlimentacao = "";
         double valorDescVA = 0;
         double valeAlimentacaoTotal = 0;
+        double INSSContri = 0; //a quantidade em reais que o empregado tem que contribuir
+        double aliquotaEfet = 0; // Aliquota efetiva do inss, ou seja é a porcentagem que vai incidir diretamente no salario
+        double valorINSS = 0;
 
 
 //          Inicio
@@ -143,6 +146,22 @@ public class Main {
             }
         }
 
+//        INSS obs: a calculadora ja esta calculando o valor do inss mas ainda falta calcular a aliquota efetiva
+
+        if (salBrutoFunc <= 1302.00) { //1 faixa ate 1302 bruto
+            valorINSS = salBrutoFunc * 0.075;
+
+        } else if (salBrutoFunc <= 2571.29) { //2 faixa
+            valorINSS = (salBrutoFunc - 1302.00) * 0.09 + 97.65;
+
+        } else if (salBrutoFunc <= 3856.94) { //3 faixa
+            valorINSS = (salBrutoFunc - 2571.29) * 0.12 + 114.24;
+
+        } else if (salBrutoFunc <= 7507.49) { //4 faixa
+            valorINSS = (salBrutoFunc - 3856.94) * 0.14 + 154.28;
+        } else {
+            valorINSS = 877.24;
+        }
 
 //        RESULTADOS DOS REQUISITOS #DEBUG
         System.out.println(nomeFunc);
