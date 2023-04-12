@@ -1,4 +1,6 @@
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -52,8 +54,7 @@ public class Main {
         double valorHorasExtra = 0;
         double qtdDescVA = 0;
         double valorFaltas = 0;
-        double dataContrato = 0;
-
+        String dataContrato = "";
 
 
 //        Switch para pegar mes
@@ -94,9 +95,7 @@ public class Main {
         nomeFunc = console.nextLine();
 
         System.out.print("Digite a data de admissao do funcionario: ");
-        dataContrato = console.nextDouble();
-
-        console.nextLine();
+        dataContrato = console.nextLine();
 
         System.out.print("Cargo do funcionario: ");
         cargoFunc = console.nextLine();
@@ -273,6 +272,23 @@ public class Main {
 //        Salario Liquido
         salLiquidoFunc = salBrutoFunc + valorAddPeric + valorAddInsa - valorINSS + valorHorasExtra - valorDescVA - valorFaltas + valorValeAli - valorDescVT;
 
+//        variaveis para o resultado
+        BigDecimal rSalLiquido = new BigDecimal(salLiquidoFunc).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rSalPorHora = new BigDecimal(salPorHora).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorAddPeric = new BigDecimal(valorAddPeric).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorFaltas = new BigDecimal(valorFaltas).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorAddInsa = new BigDecimal(valorAddInsa).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorFGTS = new BigDecimal(valorFGTS).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorDescVT = new BigDecimal(valorDescVT).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorDescVA = new BigDecimal(valorDescVA).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorINSS = new BigDecimal(valorINSS).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorValeAli = new BigDecimal(valorValeAli).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorIrrf = new BigDecimal(valorIrrf).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rValorHorasExtra = new BigDecimal(valorHorasExtra).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rAliquotaEfetINSS = new BigDecimal(aliquotaEfetINSS).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rAliquotaEfetIRRF = new BigDecimal(aliquotaEfetIRRF).setScale(2, RoundingMode.HALF_EVEN);
+        BigDecimal rBaseCalcIRRF = new BigDecimal(baseCalcIRRF).setScale(2, RoundingMode.HALF_EVEN);
+
 //        Resultados pedidos
 
         System.out.println("Mes de referencia " + mesAtual);
@@ -280,19 +296,21 @@ public class Main {
         System.out.println("O colaborador de nome: " + nomeFunc);
         System.out.println("Com data de admissao em " + dataContrato);
         System.out.println("Cargo: " + cargoFunc);
-        System.out.println("Salario liquido: " + Math.round(salLiquidoFunc));
+        System.out.println("Salario liquido: " + rSalLiquido);
+        System.out.println("Salario por hora: " + rSalPorHora);
         System.out.println("--------------------------------------------------");
         System.out.println("Proventos: " );
-        System.out.println("Adicional periculosidade: " + Math.round(valorAddPeric) + "R$ " + adPeric + "%");
-        System.out.println("Adicional insalubridade: " + Math.round(valorAddInsa) + "R$ Grau:" + insalubridadeNivel);
-        System.out.println("Vale alimentacao no valor de: " + valeAlimentacaoDia + " que no total fica: " + Math.round(valorValeAli) + " e é descontado:" + Math.round(valorDescVA) + "R$ no salario");
-        System.out.println("Vale transporte no valor de: " + valorValeTrans + "R$ e é descontado:" + valorDescVT + "R$ no salario");
-        System.out.println("Horas extras: " + horasExtra + "Horas, valor total das horas extras: " + Math.round(valorHorasExtra));
+        System.out.println("Adicional periculosidade: " + rValorAddPeric + "R$ " + adPeric + "%");
+        System.out.println("Adicional insalubridade: " + rValorAddInsa + "R$ Grau:" + insalubridadeNivel);
+        System.out.println("Vale alimentacao no valor de: " + valeAlimentacaoDia + " que no total fica: " + rValorValeAli + " e é descontado:" + rValorDescVA + "R$ no salario");
+        System.out.println("Vale transporte no valor de: " + valorValeTrans + "R$ e é descontado:" + rValorDescVT + "R$ no salario");
+        System.out.println("Horas extras: " + horasExtra + "Horas, valor total das horas extras: " + rValorHorasExtra);
         System.out.println("---------------------------------------------------------------");
         System.out.println("Descontos: ");
-        System.out.println("O Inss desconta: " + aliquotaEfetINSS + "% de aliquota efetiva do seu salario, e corresponde a " + Math.round(valorINSS) + "R$");
-        System.out.println("O FGTS desconta: 8% que corresponde a: " + Math.round(valorFGTS));
-        System.out.println("O IRRF desconta: " + aliquotaEfetIRRF + "% de aliquota efetiva do salario base que é:" + Math.round(baseCalcIRRF) + ", e corresponde a " + Math.round(valorIrrf) + "R$");
-        System.out.println("Desconto de faltas: " + Math.round(valorFaltas) + "R$");
+        System.out.println("O Inss desconta: " + rAliquotaEfetINSS + "% de aliquota efetiva do seu salario, e corresponde a " + rValorINSS + "R$");
+        System.out.println("O FGTS desconta: 8% que corresponde a: " + rValorFGTS);
+        System.out.println("O IRRF desconta: " + rAliquotaEfetIRRF + "% de aliquota efetiva do salario base que é:" + rBaseCalcIRRF + ", e corresponde a " + rValorIrrf + "R$");
+        System.out.println("Desconto de faltas: " + rValorFaltas + "R$");
+        System.out.println("Salario Bruto: " + salBrutoFunc);
     }
 }
