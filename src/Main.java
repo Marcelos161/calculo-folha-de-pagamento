@@ -1,5 +1,4 @@
-import java.math.*;
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -20,12 +19,12 @@ public class Main {
         int horasTotais = 0; // Vai receber as horas totais no mes
         double salPorHora = 0; // Recebe o valor do salario dividido pelas horas trabalhadas
         String periculosidade = "";
-        double adPeric = 0.30;
+        double adPeric = 30;
         double valorAddPeric = 0;
         double salLiquidoFunc = 0; // Salario liquido
         String insalubridade = "";
         String insalubridadeNivel = "";
-        double valeTrans = 0;
+        double valorValeTrans = 0;
         double salario6 = 0;
         int diasTrabMes = 0;
         int semanasMesAtual = 5;
@@ -41,10 +40,10 @@ public class Main {
         double outDeducoes = 0;
         double deducaoIRRF = 0;
         double baseCalcIRRF = 0;
-        double Irrf = 0;
+        double valorIrrf = 0;
         double aliquotaEfetIRRF = 0;
         double valorAddInsa = 0;
-        double valorValeTrans = 0;
+        double valorDescVT = 0;
         double valorValeAli = 0;
         int mes = LocalDate.now().getMonthValue();
         String mesAtual = "";
@@ -94,8 +93,10 @@ public class Main {
         System.out.print("Primeiramente digite o nome do funcionario: ");
         nomeFunc = console.nextLine();
 
-        System.out.println("Digite a data de admissao do funcionario: ");
+        System.out.print("Digite a data de admissao do funcionario: ");
         dataContrato = console.nextDouble();
+
+        console.nextLine();
 
         System.out.print("Cargo do funcionario: ");
         cargoFunc = console.nextLine();
@@ -123,7 +124,7 @@ public class Main {
             periculosidade = console.nextLine();
 
             if (periculosidade.equalsIgnoreCase("y")) {
-                valorAddPeric = (salBrutoFunc * adPeric);
+                valorAddPeric = (salBrutoFunc * (adPeric / 100));
             } else if (periculosidade.equalsIgnoreCase("n")){
                 System.out.println("Nao tem adicional periculosidade");
                 valorAddPeric = 0;
@@ -162,13 +163,13 @@ public class Main {
 //        Desconto de vale transportes
 
         System.out.print("qual o valor do vale transporte desse funcionario em reais:");
-        valeTrans = console.nextDouble();
+        valorValeTrans = console.nextDouble();
         salario6 = salBrutoFunc * 0.06;
 
-        if (valeTrans >= salario6) {
-            valorValeTrans = salario6;
+        if (valorValeTrans >= salario6) {
+            valorDescVT = salario6;
         } else {
-            valorValeTrans = valeTrans;
+            valorDescVT = valorValeTrans;
         }
 //                                      ATE AQUI TODAS AS CONTAS MATEMATICAS ESTAO CORRETAS obs: faltam algumas coisas no salario hora
 
@@ -205,7 +206,7 @@ public class Main {
                         System.out.print("Qual o valor do desconto em %: ");
                         qtdDescVA = console.nextDouble();
 
-                        valorDescVA = valorDescVA / 100 * salBrutoFunc;
+                        valorDescVA = qtdDescVA / 100 * salBrutoFunc;
                     }
                 }
             }
@@ -249,18 +250,18 @@ public class Main {
         baseCalcIRRF = salBase - deducaoIRRF;
 
         if (baseCalcIRRF <= 1903.98){
-            Irrf = 0;
+            valorIrrf = 0;
         } else if (baseCalcIRRF <= 2826.65) {
-            Irrf = (baseCalcIRRF - 142.80) * 0.075;
+            valorIrrf = (baseCalcIRRF - 142.80) * 0.075;
         } else if (baseCalcIRRF <= 3751.05) {
-            Irrf = (baseCalcIRRF - 354.80) * 0.15;
+            valorIrrf = (baseCalcIRRF - 354.80) * 0.15;
         } else if (baseCalcIRRF <= 4664.68) {
-            Irrf = (baseCalcIRRF - 636.13) * 0.225;
+            valorIrrf = (baseCalcIRRF - 636.13) * 0.225;
         } else  {
-            Irrf = (baseCalcIRRF - 869.36) * 0.275;
+            valorIrrf = (baseCalcIRRF - 869.36) * 0.275;
         }
 
-        aliquotaEfetIRRF = Irrf / salBrutoFunc;
+        aliquotaEfetIRRF = valorIrrf / salBrutoFunc;
 
 
 //        calculo de horas extras
@@ -268,65 +269,30 @@ public class Main {
         valorHorasExtra = (horasExtra * salPorHora) + (salPorHora / 2 * horasExtra);
 
 //        faltas
-
+        valorFaltas = (faltas * salPorHora * diasTrabalho);
 //        Salario Liquido
-        salLiquidoFunc = salBrutoFunc + valorAddPeric + valorAddInsa - valorDescVA - valorINSS + valorHorasExtra - valorDescVA - valorFaltas;
-
-
-//        RESULTADOS DOS REQUISITOS #DEBUG
-//        System.out.println("------------------------------------------------------------");
-//        System.out.println("O funcionario de nome " + nomeFunc);
-//        System.out.println("Com admissao em: " + dataContrato);
-//        System.out.println("Com cargo de " + cargoFunc);
-//        System.out.println("salario bruto " + salBrutoFunc);
-//        System.out.println("Horas trabalhadas no dia " + horasDiasFunc);
-//        System.out.println("dias trabalhados na semana " + diasTrabalho);
-//        System.out.println("Horas trabalhadas por semana" + horasTotaisSem);
-//        System.out.println("Horas totais trabalhadas no mes" + horasTotais);
-//        System.out.println("Salario hora do funcionario " + Math.round(salPorHora));
-//        System.out.println("mes vigente: " + mesAtual);
-//
-//        System.out.println(periculosidade); //periculosidade debbuger
-//        if (periculosidade.equalsIgnoreCase("y")){
-//            System.out.println("O adicional periculosidade é de " + adPeric * 100 + " % que resulta no valor de " + valorAddPeric);
-//        } else {
-//            System.out.println("Nao teve adicional periculosidade");
-//        }
-//
-//        if (insalubridadeNivel.equalsIgnoreCase("")) { //insalubridade debbuger
-//            System.out.println("nao houve adicional insalubridade"); //retorno se nao houve
-//        } else {
-//            System.out.println("insalubridade nivel:" + insalubridadeNivel.toUpperCase()); //retorno se houve, e qual o nivel
-//        }
-//
-//        System.out.println("Valor do vale transporte " + valorValeTrans);
-//
-//
-//        System.out.println("O empregado recebe vale alimentacao : " + valeAlimentacao);
-//        System.out.println("Valor do vale alimentacao diario: " + valeAlimentacaoDia);
-//        System.out.println("Há desconto no salario ? " + descValeAlimentacao);
-//        System.out.println("Porcentagem a ser descontada do vale alimentacao: " + qtdDescVA);
-//        System.out.println("Valor completo do vale alimentacao: " + Math.round(valorValeAli));
-//
-//        System.out.println("O valor do INSS é: " + Math.round(valorINSS));
-//        System.out.println("Aliquota efetiva do INSS em porcentagem: " + aliquotaEfetINSS + "%");
-//
-//        System.out.println("valor do FGTS pago pela empresa: " + Math.round(valorFGTS));
-//
-//        System.out.println("valor do IRRF: " + Math.round(Irrf));
-//        System.out.println("Base de calculo IRRF: " + Math.round(baseCalcIRRF));
-//        System.out.println("Deducao a ser descontado no salario base: " + Math.round(deducaoIRRF));
-//        System.out.println("Salario base: " + Math.round(salBase));
-//        System.out.println("Aliquota efetiva sobre o salario: " + aliquotaEfetIRRF);
-//
-//        System.out.println("Valor das horas extras: " + Math.round(valorHorasExtra));
-//
-//        System.out.println("O valor descontado pelas faltas: " + Math.round(valorFaltas));
-//
-//        System.out.println("E por fim o salario liquido: " + Math.round(salLiquidoFunc));
+        salLiquidoFunc = salBrutoFunc + valorAddPeric + valorAddInsa - valorINSS + valorHorasExtra - valorDescVA - valorFaltas + valorValeAli - valorDescVT;
 
 //        Resultados pedidos
 
-        System.out.println("No");
+        System.out.println("Mes de referencia " + mesAtual);
+        System.out.println("----------------------------------------------");
+        System.out.println("O colaborador de nome: " + nomeFunc);
+        System.out.println("Com data de admissao em " + dataContrato);
+        System.out.println("Cargo: " + cargoFunc);
+        System.out.println("Salario liquido: " + Math.round(salLiquidoFunc));
+        System.out.println("--------------------------------------------------");
+        System.out.println("Proventos: " );
+        System.out.println("Adicional periculosidade: " + Math.round(valorAddPeric) + "R$ " + adPeric + "%");
+        System.out.println("Adicional insalubridade: " + Math.round(valorAddInsa) + "R$ Grau:" + insalubridadeNivel);
+        System.out.println("Vale alimentacao no valor de: " + valeAlimentacaoDia + " que no total fica: " + Math.round(valorValeAli) + " e é descontado:" + Math.round(valorDescVA) + "R$ no salario");
+        System.out.println("Vale transporte no valor de: " + valorValeTrans + "R$ e é descontado:" + valorDescVT + "R$ no salario");
+        System.out.println("Horas extras: " + horasExtra + "Horas, valor total das horas extras: " + Math.round(valorHorasExtra));
+        System.out.println("---------------------------------------------------------------");
+        System.out.println("Descontos: ");
+        System.out.println("O Inss desconta: " + aliquotaEfetINSS + "% de aliquota efetiva do seu salario, e corresponde a " + Math.round(valorINSS) + "R$");
+        System.out.println("O FGTS desconta: 8% que corresponde a: " + Math.round(valorFGTS));
+        System.out.println("O IRRF desconta: " + aliquotaEfetIRRF + "% de aliquota efetiva do salario base que é:" + Math.round(baseCalcIRRF) + ", e corresponde a " + Math.round(valorIrrf) + "R$");
+        System.out.println("Desconto de faltas: " + Math.round(valorFaltas) + "R$");
     }
 }
