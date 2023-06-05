@@ -1,6 +1,7 @@
 package models;
 
 public class Funcionario {
+    private int id;
     private String nome;
     private String dataDeAdmissao;
     private String cargo;
@@ -84,5 +85,28 @@ public class Funcionario {
         this.horasTrabalhadas = horasTrabalhadas;
         this.diasTrabalhadosSem = diasTrabalhadosSem;
         this.dependetes = dependentes;
+    }
+
+    public Funcionario(int id, String nome, String dataDeAdmissao, String cargo, String CPF, double salBruto, double horasTrabalhadas, int diasTrabalhadosSem, int dependentes) {
+        this.id = id;
+        this.cargo = cargo;
+        this.dataDeAdmissao = dataDeAdmissao;
+        this.nome = nome;
+        this.CPF = CPF;
+        this.salBruto = salBruto;
+        this.horasTrabalhadas = horasTrabalhadas;
+        this.diasTrabalhadosSem = diasTrabalhadosSem;
+        this.dependetes = dependentes;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Nome = %s \n", nome));
+        sb.append(String.format("Cargo = %s \n", cargo));
+        sb.append(String.format("Indice = %s \n", id));
+
+
+        return sb.toString();
     }
 }
