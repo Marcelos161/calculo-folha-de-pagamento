@@ -99,12 +99,19 @@ public class Funcionario {
         this.dependetes = dependentes;
     }
 
+    public Funcionario() {
+
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Id = %s \n", id));
         sb.append(String.format("Nome = %s \n", nome));
         sb.append(String.format("Cargo = %s \n", cargo));
-        sb.append(String.format("Indice = %s \n", id));
+        sb.append(String.format("Data de Admissao = %s \n", dataDeAdmissao));
+        sb.append(String.format("CPF = %s \n", CPF));
+        sb.append(String.format("Salario Bruto do Funcionario = %s \n", salBruto));
 
 
         return sb.toString();
