@@ -18,34 +18,82 @@ public class Main {
         int mes = LocalDate.now().getMonthValue();
         String mesAtual;
         switch (mes) {
-            case 1: mesAtual = "Janeiro";
+            case 1:
+                mesAtual = "Janeiro";
                 break;
-            case 2: mesAtual = "Fevereiro";
+            case 2:
+                mesAtual = "Fevereiro";
                 break;
-            case 3: mesAtual = "Março";
+            case 3:
+                mesAtual = "Março";
                 break;
-            case 4: mesAtual = "Abril";
+            case 4:
+                mesAtual = "Abril";
                 break;
-            case 5: mesAtual = "Maio";
+            case 5:
+                mesAtual = "Maio";
                 break;
-            case 6: mesAtual = "Junho";
+            case 6:
+                mesAtual = "Junho";
                 break;
-            case 7: mesAtual = "Julho";
+            case 7:
+                mesAtual = "Julho";
                 break;
-            case 8: mesAtual = "Agosto";
+            case 8:
+                mesAtual = "Agosto";
                 break;
-            case 9: mesAtual = "Outubro";
+            case 9:
+                mesAtual = "Outubro";
                 break;
-            case 10: mesAtual = "Setembro";
+            case 10:
+                mesAtual = "Setembro";
                 break;
-            case 11: mesAtual = "Novembro";
+            case 11:
+                mesAtual = "Novembro";
                 break;
-            case 12: mesAtual = "Dezembro";
+            case 12:
+                mesAtual = "Dezembro";
                 break;
-            default: mesAtual = "Nao foi possivel definir o mes";
+            default:
+                mesAtual = "Nao foi possivel definir o mes";
                 break;
         }
         return mesAtual;
+    }
+
+    static List<Funcionario> funcionarios = new ArrayList<>();
+
+    static FuncConexao conexao = new FuncConexao();
+
+    static String adicionarNovoFunc() {
+        String nomeFunc;
+        String admissaoFunc;
+        String cargoFunc;
+        String cpfFunc;
+        double salBruto;
+        double horasTrabalhadasFunc;
+        int diasTrabalhadosFunc;
+        int dependentes;
+        System.out.println("voce selecionou adicionar um novo funcionario,");
+        System.out.print("Digite o nome do funcionario:");
+        nomeFunc = console.nextLine();
+        System.out.print("Data de adimissao (dd/mm/aa):");
+        admissaoFunc = console.nextLine();
+        System.out.print("Cargo do Funcionario:");
+        cargoFunc = console.nextLine();
+        System.out.print("CPF do Funcionario:");
+        cpfFunc = console.nextLine();
+        System.out.print("Digite o valor bruto do Funcionario:");
+        salBruto = console.nextDouble();
+        System.out.print("Digite as horas trabalhas pelo Funcionario:");
+        horasTrabalhadasFunc = console.nextDouble();
+        System.out.print("Digite quantos dias na semana trabalhada esse Funcionario:");
+        diasTrabalhadosFunc = console.nextInt();
+        System.out.print("Digite o numero de dependentes que tem esse Funcionario:");
+        dependentes = console.nextInt();
+
+        conexao.adicionarFunc(nomeFunc, admissaoFunc, cargoFunc, cpfFunc, salBruto, horasTrabalhadasFunc, diasTrabalhadosFunc, dependentes);
+        return "Funcionario adicionado com sucesso";
     }
 
     static FolhaDePagamento gerarFolha() {
@@ -74,21 +122,39 @@ public class Main {
 
         return folha;
     }
-    
-    static List<Funcionario> funcionarios = new ArrayList<>();
 
-    static FuncConexao conexao = new FuncConexao();
+    static void mostrarFuncs() {
+        conexao.mostrarTodosFuncs();
+    }
+
+    static void modifierFunc() {
+
+    }
+
+    static void desligarFunc() {
+
+    }
 
     public static void main(String[] args) {
         int entrada;
-        System.out.println(conexao.mostrarTodosFuncs());
-        funcionarios = conexao.mostrarTodosFuncs();
-        System.out.println("Deseja gerar a folha de pagamento de qual funcionario? (digite o id)");
+        System.out.println("Bem vindo ao programa de gera folha de pagamentos.");
+        System.out.println("Deseja fazer o que? 1. Adicionar novo funcionario; 2. Mostrar todos os funcionarios registrados; 3. Modificar salario bruto de funcionario; 4. Deletar funcionario; 5. Gerar folha de funcionario especifico;");
         entrada = console.nextInt();
-        System.out.println(funcionarios.get(entrada - 1));
-        funcionario = funcionarios.get(entrada - 1);
-        System.out.println("folha de pagamento: ");
-        System.out.println(gerarFolha());
-
+        switch (entrada) {
+            case 1:
+                System.out.println(adicionarNovoFunc());
+                break;
+            case 2:
+                mostrarFuncs();
+                break;
+            case 3:
+                modifierFunc();
+                break;
+            case 4:
+                desligarFunc();
+                break;
+            default:
+                gerarFolha();
+        }
     }
 }
