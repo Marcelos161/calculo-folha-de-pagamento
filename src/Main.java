@@ -74,7 +74,7 @@ public class Main {
         double horasTrabalhadasFunc;
         int diasTrabalhadosFunc;
         int dependentes;
-        System.out.println("voce selecionou adicionar um novo funcionario,");
+        System.out.println("voce selecionou adicionar um novo funcionario");
         System.out.print("Digite o nome do funcionario:");
         nomeFunc = console.nextLine();
         System.out.print("Data de adimissao (dd/mm/aa):");
@@ -128,11 +128,23 @@ public class Main {
     }
 
     static void modifierFunc() {
-
+        int id;
+        double novoSal;
+        System.out.println("digite o id do funcionario que deseja atualizar o salario");
+        id = console.nextInt();
+        System.out.println(conexao.FuncionarioPorID(id));
+        System.out.println("Agora digite o nome salario desse funcionario");
+        novoSal = console.nextDouble();
+        System.out.println(conexao.atualizarSalario(id, novoSal))
     }
 
     static void desligarFunc() {
-
+        int entrada = 0;
+        do {
+            System.out.println("Digite o id do funcionario a ser desligado:");
+            entrada = console.nextInt();
+            conexao.desligarFunc(entrada);
+        } while (entrada == 0);
     }
 
     public static void main(String[] args) {

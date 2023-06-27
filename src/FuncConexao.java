@@ -9,7 +9,8 @@ import java.util.List;
 
 public class FuncConexao {
     private static final String INSERIR_FUNC = "INSERT INTO funcionarios (nome, datadeadmissao, cargo, CPF, salBruto, horastrabalhadas, diastrabalhadossem, dependentes) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String MOSTRAR_FUNCS = "SELECT * FROM funcionarios";
+    private static final String MOSTRAR_FUNCS = "SELECT * FROM funcionarios WHERE id = ?";
+    private static final String MOSTRAR_FUNC_ID = "SELECT * FROM funcionarios";
     private static final String ATUALIZAR_SAL = "UPDATE funcionarios SET salBruto = ? WHERE id = ?";
     private static final String DESLIGAR_FUNC = "DELETE FROM funcionarios WHERE id = ?";
 
@@ -35,7 +36,7 @@ public class FuncConexao {
         return "Erro ao adicionar funcionario";
     }
 
-    public List<Funcionario> mostrarTodosFuncs () {
+    public List<Funcionario> mostrarTodosFuncs() {
         List<Funcionario> funcionarios = new ArrayList<>();
 
         try {
@@ -57,7 +58,7 @@ public class FuncConexao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return funcionarios;
@@ -72,9 +73,9 @@ public class FuncConexao {
             statement.executeUpdate();
             status = "Contato deletado com sucesso";
             return status;
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
         return status;
@@ -95,5 +96,29 @@ public class FuncConexao {
         }
         return "erro ao atualizar funcionario";
     }
-}
 
+    public Funcionario FuncionarioPorID(int idPesquisa){
+        try {
+            Connection conexao = ConexaoBD.conectar();
+            PreparedStatement statement = conexao.prepareStatement(MOSTRAR_FUNC_ID);
+            statement.setInt(1, idPesquisa);
+            ResultSet resultado = statement.executeQuery();
+
+            int id = resultado.getInt("idfuncionarios");
+            String nome = resultado.getString("nome");
+            String cargo = resultado.getString("cargo");
+            String dtadimssao = resultado.getString("datadeadmissao");
+            String CPF = resultado.getString("CPF");
+            double salBruto = resultado.getDouble("salBruto");
+            double horastrabalhadas = resultado.getDouble("horastrabalhadas");
+            int diastrabalhados = resultado.getInt("diastrabalhadossem");
+            int depedentes = resultado.getInt("dependentes");
+            Funcionario funcionario =new Funcionario(id, nome, dtadimssao, cargo, CPF, salBruto, horastrabalhadas,diastrabalhados, depedentes );
+            return funcionario;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
